@@ -20,8 +20,6 @@ typedef struct buttons_ctx {
 
 volatile buttons_ctx buttons;
 
-volatile int btn;
-
 //static void  __attribute__ ((section (".tc_in_tcm"))) handle_button_interrupts(void* context, alt_u32 id);
 static void handle_button_interrupts(void* context, alt_u32 id) {
 	PERF_BEGIN(PERFORMANCE_COUNTER_0_BASE, 1);
@@ -55,11 +53,6 @@ int main(void) {
 	IOWR_ALTERA_AVALON_PIO_DATA(GREEN_LED_BASE, led);
 	init_button_pio();
 	while (1) {
-		if (btn !=0)
-		{
-			buttons.is_updated = 1;
-			buttons.edge_capture = btn;
-			btn = 0;
 		if (buttons.is_updated) {
 			++counter;
 			buttons.is_updated = 0;
@@ -89,8 +82,8 @@ int main(void) {
 				break;
 			}
 		}
-		}
 	}
+	
 
 }
 
